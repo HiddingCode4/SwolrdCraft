@@ -8,8 +8,8 @@
 
 <p align="center">SworldCraft Launcher  Your modded Minecraft adventure starts here.</p>
 
-![Screenshot 1]([img]https://i.imgur.com/uRSabPe.png[/img])
-![Screenshot 2]([img]https://i.imgur.com/WzahQ4S.png[/img])
+![Screenshot 1](https://imgur.com/uRSabPe)
+![Screenshot 2](https://imgur.com/WzahQ4S)
 
 ## Features
 
