@@ -38,6 +38,7 @@ class ProcessBuilder {
 
         this.usingLiteLoader = false
         this.usingFabricLoader = false
+        this.usingNeoForge = this.modManifest?.arguments?.game?.includes('--fml.neoForgeVersion') === true
         this.llPath = null
     }
     
@@ -46,6 +47,7 @@ class ProcessBuilder {
      */
     build(){
         fs.ensureDirSync(this.gameDir)
+        if(this.usingNeoForge) require('./syncpackmods')(this.gameDir, this.server.rawServer.modules)
         const tempNativePath = path.join(os.tmpdir(), ConfigManager.getTempNativeFolder(), crypto.pseudoRandomBytes(16).toString('hex'))
         process.throwDeprecation = true
         this.setupLiteLoader()
@@ -304,6 +306,12 @@ class ProcessBuilder {
      * @param {Array.<Object>} mods An array of mods to add to the mod list.
      */
     constructModList(mods) {
+        // NeoForge discovers the managed jars in the instance mods directory.
+        // It does not support the old --fml.modLists argument.
+        if(this.usingNeoForge) {
+            if(mods.length) throw new Error('NeoForge mods must be distributed as File modules in mods/, not ForgeMod modules.')
+            return []
+        }
         const writeBuffer = mods.map(mod => {
             return this.usingFabricLoader ? mod.getPath() : mod.getExtensionlessMavenIdentifier()
         }).join('\n')

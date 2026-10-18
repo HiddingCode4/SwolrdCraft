@@ -1,6 +1,6 @@
 {
   "name": "sworldcraftlauncher",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "productName": "SworldCraft Launcher",
   "description": "Launcher For SworldCraft",
   "author": "Daniel Scalzi (https://github.com/dscalzi/)",
@@ -45,29 +45,24 @@
     "eslint": "^8.57.1"
   },
   "build": {
-  "appId": "com.sworldcraft.launcher",
-  "productName": "SworldCraft Launcher",
-
-  "artifactName": "SworldCraftLauncher-setup-${version}.${ext}",
-
-  "win": {
-    "target": "nsis"
+    "appId": "com.sworldcraft.launcher",
+    "productName": "SworldCraft Launcher",
+    "artifactName": "SworldCraftLauncher-setup-${version}.${ext}",
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "artifactName": "SworldCraftLauncher-setup-${version}.${ext}"
+    },
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "https://distribution.sworldcraft.com/downloads/launcher/"
+      }
+    ]
   },
-
-  "nsis": {
-    "artifactName": "SworldCraftLauncher-setup-${version}.${ext}"
-  },
-
-  "publish": [
-    {
-      "provider": "generic",
-      "url": "https://distribution.sworldcraft.com/downloads/launcher/"
-    }
-  ]
-},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ProjectXcraft/SwolrdCraft.git"
   }
 }
-
