@@ -143,17 +143,16 @@ ipcMain.on(MSFT_OPCODE.OPEN_LOGIN, (ipcEvent, ...arguments_) => {
         }
     })
 
-    msftAuthWindow.webContents.on('did-navigate', (_, uri) => {
+        msftAuthWindow.webContents.on('did-navigate', (_, uri) => {
         if (uri.startsWith(REDIRECT_URI_PREFIX)) {
-            let queries = uri.substring(REDIRECT_URI_PREFIX.length).split('#', 1).toString().split('&')
-            let queryMap = {}
+            const queryMap = Object.fromEntries(new URL(uri).searchParams)
 
-            queries.forEach(query => {
-                const [name, value] = query.split('=')
-                queryMap[name] = decodeURI(value)
-            })
-
-            ipcEvent.reply(MSFT_OPCODE.REPLY_LOGIN, MSFT_REPLY_TYPE.SUCCESS, queryMap, msftAuthViewSuccess)
+            ipcEvent.reply(
+                MSFT_OPCODE.REPLY_LOGIN,
+                MSFT_REPLY_TYPE.SUCCESS,
+                queryMap,
+                msftAuthViewSuccess
+            )
 
             msftAuthSuccess = true
             msftAuthWindow.close()
