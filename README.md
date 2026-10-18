@@ -2,14 +2,14 @@
 
 <h1 align="center">SworldCraft</h1>
 
-<em><h5 align="center">(formerly Electron Launcher)</h5></em>
+<em><h5 align="center">(Old launcher by dscalzi / Helios Launcher)</h5></em>
 
 [<p align="center"><img src="https://img.shields.io/github/actions/workflow/status/dscalzi/HeliosLauncher/build.yml?branch=master&style=for-the-badge" alt="gh actions">](https://github.com/dscalzi/HeliosLauncher/actions) [<img src="https://img.shields.io/github/downloads/dscalzi/HeliosLauncher/total.svg?style=for-the-badge" alt="downloads">](https://github.com/dscalzi/HeliosLauncher/releases) <img src="https://forthebadge.com/images/badges/winter-is-coming.svg"  height="28px" alt="winter-is-coming"></p>
 
 <p align="center">SworldCraft Launcher  Your modded Minecraft adventure starts here.</p>
 
-![Screenshot 1](https://i.imgur.com/6o7SmH6.png)
-![Screenshot 2](https://i.imgur.com/x3B34n1.png)
+![Screenshot 1](https://imgur.com/uRSabPe)
+![Screenshot 2](https://imgur.com/WzahQ4S)
 
 ## Features
 
