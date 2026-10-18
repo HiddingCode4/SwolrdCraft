@@ -8,13 +8,15 @@
 
 <p align="center">SworldCraft Launcher  Your modded Minecraft adventure starts here.</p>
 
-![Screenshot 1](https://imgur.com/uRSabPe)
-![Screenshot 2](https://imgur.com/WzahQ4S)
+<img width="975" height="548" alt="Capture d&#39;écran 2026-10-18 103223" src="https://github.com/user-attachments/assets/86508999-e10d-4a85-8ce3-5df85395f696" />
+<img width="970" height="543" alt="Capture d&#39;écran 2026-10-18 103207" src="https://github.com/user-attachments/assets/1222d932-f14d-4c3d-9f14-7a4219d64253" />
+
 
 ## Features
 
 * 🔒 Full account management.
   * Add multiple accounts and easily switch between them.
+
   * Microsoft (OAuth 2.0) + Mojang (Yggdrasil) authentication fully supported.
   * Credentials are never stored and transmitted directly to Mojang.
 * 📂 Efficient asset management.
