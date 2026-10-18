@@ -1,0 +1,88 @@
+SWORLDCRAFT - ADAPTATION NEOFORGE 21.1.259 / MINECRAFT 1.21.1
+VERSION DE TEST - lancement Minecraft sur Windows encore à valider.
+
+Ce correctif cible le dépôt HiddingCode4/SwolrdCraft, version 2.2.6.
+Il ne change pas les dépendances et n'exige pas de mettre Nebula à jour.
+Le générateur fourni remplace Nebula uniquement pour CE pack NeoForge.
+Les bibliothèques sont exportées depuis une installation officielle existante.
+Aucun compte, jeton ou fichier personnel n'est exporté.
+
+1. PC WINDOWS : sauvegarder les deux fichiers avant remplacement
+Dans PowerShell à la racine du launcher :
+  Copy-Item .\app\assets\js\processbuilder.js .\app\assets\js\processbuilder.before-neoforge.bak
+  Copy-Item .\app\assets\js\distromanager.js .\app\assets\js\distromanager.before-neoforge.bak
+Fermer le launcher, puis copier les dossiers app et tools de cette archive
+à la racine du projet, en acceptant le remplacement des deux fichiers JS.
+Ne pas remplacer tout le dossier app : fusionner son contenu.
+
+2. PC WINDOWS : exporter le runtime déjà installé
+  node .\tools\neoforge\export-runtime.cjs
+Résultat attendu : Exported 49 libraries to ...\swc-neoforge-runtime
+Si le script signale un fichier manquant/corrompu, arrêter et copier l'erreur.
+Il faut réinstaller le client NeoForge 21.1.259 si son installation est incomplète.
+Si Minecraft est ailleurs, passer son dossier en premier argument :
+  node .\tools\neoforge\export-runtime.cjs "D:\mon-minecraft"
+Le script refuse d'écraser un dossier d'export existant.
+
+3. WINSCP : transfert
+Copier le CONTENU du dossier swc-neoforge-runtime vers :
+  /var/www/distribution/neoforge-runtime/
+Le fichier index.json doit être directement dans ce dernier dossier.
+Copier generate-test-distro.py depuis tools/neoforge vers /root/ sur le VPS.
+Les nouveaux mods/configs/textures/shaders doivent déjà se trouver dans :
+  /var/www/distribution/servers/swc-pack-1.20.1/files/
+Le nom ancien de ce dossier distant est volontairement conservé :
+le générateur crée une NOUVELLE instance locale 1.21.1 chez les joueurs.
+
+4. PUTTY : générer une distribution de test
+  python3 /root/generate-test-distro.py
+Le script écrit uniquement :
+  /var/www/distribution/distribution-neoforge-test.json
+Il ne remplace pas distribution.json, ne supprime aucun fichier et ne touche
+pas aux mondes des joueurs. Corriger les permissions de lecture si nécessaire :
+  chmod -R a+rX /var/www/distribution/neoforge-runtime
+  chmod a+r /var/www/distribution/distribution-neoforge-test.json
+Vérifier depuis le navigateur Windows :
+  https://distribution.sworldcraft.com/distribution-neoforge-test.json
+Le fichier doit être accessible en JSON, ainsi que les fichiers runtime.
+
+5. PC WINDOWS : démarrer uniquement le launcher de développement sur le test
+  $env:SWORLDCRAFT_DISTRO_URL="https://distribution.sworldcraft.com/distribution-neoforge-test.json"
+  npm start
+Le serveur affiché doit être SWORLDCRAFT - TEST NeoForge.
+Le nouveau profil demande Java 21. Laisser le launcher le télécharger au besoin.
+Se connecter avec son compte Microsoft, puis lancer et tester un monde local.
+Le serveur multijoueur doit lui aussi être compatible avec le nouveau pack.
+La connexion automatique est désactivée dans le profil de test.
+En cas d'erreur : conserver la console PowerShell et le latest.log du jeu.
+NE PAS transmettre de jeton d'accès Microsoft présent dans un journal.
+Ne pas publier l'installateur avant validation du lancement et des mods.
+
+6. RETOUR AU PROFIL NORMAL
+Fermer le launcher, puis :
+  Remove-Item Env:SWORLDCRAFT_DISTRO_URL
+  npm start
+Le profil normal pointe encore vers l'ancienne distribution :
+ne pas lancer son ancien pack, dont les fichiers distants ont été remplacés.
+En cas de retour complet au code original, restaurer les deux fichiers .bak.
+
+7. APRES UN TEST REUSSI SEULEMENT
+Préparer une version 2.2.7 de l'installateur (ne pas réutiliser le même numéro)
+et un basculement de distribution. La procédure de publication reste à faire.
+Les futurs packs pourront être régénérés avec le script Python après transfert,
+mais leur lancement devra être vérifié avant le remplacement de la production.
+Pour tester une nouvelle version du pack avec des mods supprimés, repartir
+d'une instance de test vide : ce prototype n'efface pas les anciens fichiers.
+
+CONTENU ET VERIFICATIONS
+- ProcessBuilder détecte --fml.neoForgeVersion et refuse --fml.modLists.
+- Les mods NeoForge sont des modules File dans le dossier mods de l'instance.
+- Les bibliothèques du profil et les deux fichiers de jeu générés sont hébergés.
+- Les ressources supplémentaires du client sont sur le classpath ; le client
+  patché est téléchargé dans libraries et découvert par le loader.
+- La distribution de test utilise un identifiant d'instance distinct.
+- Le profil fourni a été comparé à celui de l'installateur officiel : identique.
+- Syntaxe JS/Python et tests sur fixtures : export, intégrité, chemins, URL,
+  garde-fou modLists, conservation de la production, Java 21.
+- Pas de test de lancement réel, d'authentification Microsoft, de téléchargement
+  complet ni de construction d'EXE dans cet environnement. Validation requise.
